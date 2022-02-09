@@ -21,7 +21,7 @@ public class AppTest {
     public static void setUp() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         AppTest PersonConstraintTest;
-        validator = factory.getValidator();
+        PersonConstraintTest.validator = factory.getValidator();
     }
 
     @Test
