@@ -1,4 +1,4 @@
-package fr.iut;
+package bean;
 
 public class App {
     
