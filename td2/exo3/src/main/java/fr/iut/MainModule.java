@@ -14,7 +14,7 @@ public class MainModule extends AbstractModule {
         bind(Caddy.class);
         bind(Club.class)
                 .annotatedWith(Names.named("Putter"))
-                .to(Putter.class);
+                .to(PutterExperimental.class);
         bind(Club.class)
                 .annotatedWith(Names.named("Wood"))
                 .to(Wood.class);
