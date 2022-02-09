@@ -1,5 +1,7 @@
 package fr.iut.rm.persistence.domain;
 
+import jakarta.validation.constraints.Max;
+
 import javax.persistence.*;
 
 /**
@@ -14,6 +16,12 @@ public class Room {
     @Id
     @GeneratedValue
     private long id;
+
+    /**
+     * desc limitée à 10 caractères
+     */
+    @Max(10)
+    private String description;
 
     /**
      * Room's name
