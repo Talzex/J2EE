@@ -20,6 +20,7 @@ public class Room {
     /**
      * desc limitée à 10 caractères
      */
+    @Column(nullable = true)
     @Max(10)
     private String description;
 
@@ -72,4 +73,7 @@ public class Room {
         this.name = name;
     }
 
+    public String getDescription() { return description; }
+
+    public void setDescription(String description) { this.description = description; }
 }
