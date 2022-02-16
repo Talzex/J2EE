@@ -24,6 +24,18 @@ public class Room {
     private String description;
 
     /**
+     * get the description of a room
+     * @return
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
      * Room's name
      */
     @Column(nullable = false, unique = true)
