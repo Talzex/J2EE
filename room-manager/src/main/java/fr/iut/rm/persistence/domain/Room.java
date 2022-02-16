@@ -1,6 +1,6 @@
 package fr.iut.rm.persistence.domain;
 
-import jakarta.validation.constraints.Max;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 
@@ -20,20 +20,9 @@ public class Room {
     /**
      * desc limitée à 10 caractères
      */
-    @Max(10)
+    @Column(nullable = true)
+    @Length(max = 10)
     private String description;
-
-    /**
-     * get the description of a room
-     * @return
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     /**
      * Room's name
@@ -84,4 +73,7 @@ public class Room {
         this.name = name;
     }
 
+    public String getDescription() { return description; }
+
+    public void setDescription(String description) { this.description = description; }
 }

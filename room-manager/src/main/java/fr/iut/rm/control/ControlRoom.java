@@ -43,7 +43,7 @@ public class ControlRoom {
             System.out.println("Rooms :");
             System.out.println("--------");
             for (Room room : rooms) {
-                System.out.println(String.format("   [%d], name '%s', description '%s'", room.getId(), room.getName(),room.getDescription()));
+                System.out.println(String.format("   [%d], name '%s', desc '%s'", room.getId(), room.getName(), room.getDescription()));
             }
         }
 
@@ -62,7 +62,7 @@ public class ControlRoom {
 
         Room room = new Room();
         room.setName(name);
-        room.setDescription(name);
+        room.setDescription(description);
         roomDao.saveOrUpdate(room);
         unitOfWork.end();
     }
