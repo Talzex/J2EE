@@ -7,6 +7,7 @@ import fr.iut.rm.persistence.domain.Room;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 /**
@@ -43,7 +44,7 @@ public class ControlRoom {
             System.out.println("Rooms :");
             System.out.println("--------");
             for (Room room : rooms) {
-                System.out.println(String.format("   [%d], name '%s'", room.getId(), room.getName()));
+                System.out.println(String.format("   [%d], name '%s' desc '%s' ", room.getId(), room.getName(), room.getDescription()));
             }
         }
 
@@ -54,15 +55,22 @@ public class ControlRoom {
      * Creates a room in DB
      *
      * @param name the name of the room
+     * @param desc the desc of the room
      */
-    public void createRoom(final String name) {
+    public void createRoom(final String name, final String desc) {
         unitOfWork.begin();
 
         // TODO check unicity
 
         Room room = new Room();
         room.setName(name);
-        roomDao.saveOrUpdate(room);
+        room.setDescription(desc);
+        try{
+            roomDao.saveOrUpdate(room);
+        } catch (ConstraintViolationException e){
+            System.out.println(e.getConstraintViolations());
+        }
+
         unitOfWork.end();
     }
 

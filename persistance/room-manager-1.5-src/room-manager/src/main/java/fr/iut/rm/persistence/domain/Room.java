@@ -1,6 +1,7 @@
 package fr.iut.rm.persistence.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 /**
  * A classic room
@@ -8,6 +9,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "room")
 public class Room {
+
+
+
     /**
      * sequence generated id
      */
@@ -20,6 +24,12 @@ public class Room {
      */
     @Column(nullable = false, unique = true)
     private String name;
+
+    /**
+     * Room's description
+     */
+    @Size(max = 10)
+    private String description;
 
     /**
      * Default constructor (do nothing)
@@ -64,4 +74,11 @@ public class Room {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
