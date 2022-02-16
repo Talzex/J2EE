@@ -1,6 +1,6 @@
 package fr.iut.rm.persistence.domain;
 
-import jakarta.validation.constraints.Max;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 
@@ -21,7 +21,7 @@ public class Room {
      * desc limitée à 10 caractères
      */
     @Column(nullable = true)
-    @Max(10)
+    @Length(max = 10)
     private String description;
 
     /**
