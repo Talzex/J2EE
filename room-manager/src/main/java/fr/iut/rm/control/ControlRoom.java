@@ -67,4 +67,18 @@ public class ControlRoom {
         unitOfWork.end();
     }
 
+    /**
+     *
+     * @param name
+     */
+    public void deleteRoom(final String name) {
+        unitOfWork.begin();
+        Room room = new Room();
+        room = roomDao.findByName(name);
+        if(room != null){
+            roomDao.removeRoom(room);
+        }
+        unitOfWork.end();
+    }
+
 }

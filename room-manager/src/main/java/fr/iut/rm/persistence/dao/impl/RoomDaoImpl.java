@@ -41,6 +41,16 @@ public class RoomDaoImpl implements RoomDao {
     }
 
     /**
+     *
+     * @param name
+     */
+    @Override
+    @Transactional
+    public void removeRoom(final Room room){
+        em.get().remove(room);
+    }
+
+    /**
      * @return the entire db room list
      */
     @Override

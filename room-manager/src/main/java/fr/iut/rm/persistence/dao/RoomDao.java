@@ -17,6 +17,12 @@ public interface RoomDao {
     void saveOrUpdate(Room room);
 
     /**
+     * allow to remove a room
+     * @param room
+     */
+    void removeRoom(final Room room);
+
+    /**
      * @return the full room list
      */
     List<Room> findAll();

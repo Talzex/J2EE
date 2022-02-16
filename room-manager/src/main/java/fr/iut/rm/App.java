@@ -29,6 +29,10 @@ public final class App {
      */
     private static final String CREATE = "c";
     /**
+     * delete room
+     */
+    private static final String DELETE = "d";
+    /**
      * list constant
      */
     private static final String LIST = "l";
@@ -52,6 +56,7 @@ public final class App {
         // build options command line options
         options.addOption(OptionBuilder.withDescription("List all rooms").create(LIST));
         options.addOption(OptionBuilder.withArgName("name> <description").hasArgs(2).withDescription("Create new room").create(CREATE));
+        options.addOption(OptionBuilder.withDescription("name").hasArg().withDescription("Delete old room").create(DELETE));
         options.addOption(OptionBuilder.withDescription("Display help message").create(HELP));
         options.addOption(OptionBuilder.withDescription("Quit").create(QUIT));
     }
@@ -82,6 +87,11 @@ public final class App {
                     String[] values = cmd.getOptionValues(CREATE);
                     if (values[0] != null && !values[0].isEmpty()) {
                         cr.createRoom(values[0], values[1]);
+                    }
+                } else if (cmd.hasOption(DELETE)) {
+                    String name = cmd.getOptionValue(DELETE);
+                    if(name != null) {
+                        cr.deleteRoom(name);
                     }
                 }
 
