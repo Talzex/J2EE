@@ -32,6 +32,10 @@ public final class App {
      * list constant
      */
     private static final String LIST = "l";
+    /**
+     *  delete constant
+     */
+    private static final String DELETE = "d";
 
     /**
      * standard logger
@@ -54,6 +58,7 @@ public final class App {
         options.addOption(OptionBuilder.withArgName("name> <description").hasArgs(2).withDescription("Create new room").create(CREATE));
         options.addOption(OptionBuilder.withDescription("Display help message").create(HELP));
         options.addOption(OptionBuilder.withDescription("Quit").create(QUIT));
+        options.addOption(OptionBuilder.withArgName("name").hasArg().withDescription("Delete a room").create(DELETE));
     }
 
 
@@ -82,6 +87,11 @@ public final class App {
                     String[] cmdOptionValues = cmd.getOptionValues(CREATE);
                     if (cmdOptionValues[0] != null) {
                         cr.createRoom(cmdOptionValues[0], cmdOptionValues[1]);
+                    }
+                } else if (cmd.hasOption(DELETE)){
+                    String name = cmd.getOptionValue(DELETE);
+                    if (name != null && !name.isEmpty()){
+                        cr.deleteRoom(name);
                     }
                 }
 

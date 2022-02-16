@@ -75,4 +75,13 @@ public class RoomDaoImpl implements RoomDao {
         return null;
     }
 
+    @Override
+    @Transactional
+    public void removeRoom(Room room) {
+        em.get().remove(room);
+    }
+
+
+
+
 }
