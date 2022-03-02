@@ -1,4 +1,5 @@
 package fr.iut;
+import com.google.inject.Singleton;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "qrcode", urlPatterns = {"/qrcode"})
+@Singleton
 public class QRCodeServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest request,
@@ -23,6 +24,9 @@ public class QRCodeServlet extends HttpServlet {
         BitMatrix bitMatrix = null;
         try {
             String url = "POM POM POM POM POM POM";
+            if(request.getQueryString() != null && !request.getQueryString().isEmpty()){
+                url = request.getQueryString();
+            }
             bitMatrix = writer.encode(url, BarcodeFormat.QR_CODE, 300, 300);
         } catch (WriterException e) { e.printStackTrace(); }
         response.setContentType("image/png");
