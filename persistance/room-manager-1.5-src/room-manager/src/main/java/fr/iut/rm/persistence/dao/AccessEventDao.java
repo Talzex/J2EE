@@ -5,6 +5,10 @@ import fr.iut.rm.persistence.domain.Room;
 
 import java.util.List;
 
+/**
+ * Data Access Object of {@link fr.iut.rm.persistence.domain.AccessEvent}
+ */
+
 public interface AccessEventDao {
 
     /**
