@@ -38,6 +38,25 @@ public final class App {
     private static final String DELETE = "d";
 
     /**
+     * Enter event
+     */
+    private static final String ENTER ="enter";
+
+    /**
+     * Leave event
+     */
+    private static final String LEAVE = "leave";
+
+    /**
+     * Log Room
+     */
+    private static final String LOGROOM = "log";
+
+    /**
+     * Move Person
+     */
+    private static final String LOGPERSON = "moves";
+    /**
      * standard logger
      */
     private static final Logger logger = LoggerFactory.getLogger(App.class);
@@ -58,7 +77,12 @@ public final class App {
         options.addOption(OptionBuilder.withArgName("name> <description").hasArgs(2).withDescription("Create new room").create(CREATE));
         options.addOption(OptionBuilder.withDescription("Display help message").create(HELP));
         options.addOption(OptionBuilder.withDescription("Quit").create(QUIT));
-        options.addOption(OptionBuilder.withArgName("name").hasArg().withDescription("Delete a room").create(DELETE));
+        options.addOption(OptionBuilder.withArgName("room").hasArg().withDescription("Delete a room").create(DELETE));
+        options.addOption(OptionBuilder.withArgName("room name> <person name").hasArgs(2).withDescription("Enter in the room").create(ENTER));
+        options.addOption(OptionBuilder.withArgName("room name> <person name").hasArgs(2).withDescription("Leave the room").create(LEAVE));
+        options.addOption(OptionBuilder.withArgName("room").hasArg().withDescription("Room's log").create(LOGROOM));
+        options.addOption(OptionBuilder.withArgName("person").hasArg().withDescription("Show move's person").create(LOGPERSON));
+
     }
 
 
@@ -87,11 +111,43 @@ public final class App {
                     String[] cmdOptionValues = cmd.getOptionValues(CREATE);
                     if (cmdOptionValues[0] != null) {
                         cr.createRoom(cmdOptionValues[0], cmdOptionValues[1]);
+                    } else {
+                        System.out.println("Missing arguments");
                     }
                 } else if (cmd.hasOption(DELETE)){
                     String name = cmd.getOptionValue(DELETE);
                     if (name != null && !name.isEmpty()){
                         cr.deleteRoom(name);
+                    } else {
+                        System.out.println("Missing arguments");
+                    }
+                } else if (cmd.hasOption(ENTER)){
+                    String[] cmdOptionValues = cmd.getOptionValues(ENTER);
+                    if(cmdOptionValues[0] != null && cmdOptionValues[1] != null){
+                        cr.enterRoom(cmdOptionValues[0],cmdOptionValues[1]);
+                    } else {
+                        System.out.println("Missing arguments");
+                    }
+                } else if (cmd.hasOption(LEAVE)){
+                    String[] cmdOptionValues = cmd.getOptionValues(LEAVE);
+                    if(cmdOptionValues[0] != null && cmdOptionValues[1] != null){
+                        cr.leaveRoom(cmdOptionValues[0],cmdOptionValues[1]);
+                    } else {
+                        System.out.println("Missing arguments");
+                    }
+                } else if (cmd.hasOption(LOGROOM)){
+                    String room = cmd.getOptionValue(LOGROOM);
+                    if(room != null && !room.isEmpty()){
+                        cr.logRoom(room);
+                    } else {
+                        System.out.println("Missing arguments");
+                    }
+                } else if (cmd.hasOption((LOGPERSON))){
+                    String person =  cmd.getOptionValue(LOGPERSON);
+                    if(person != null && !person.isEmpty()){
+                        cr.logPerson(person);
+                    } else {
+                        System.out.println("Missing arguments");
                     }
                 }
 

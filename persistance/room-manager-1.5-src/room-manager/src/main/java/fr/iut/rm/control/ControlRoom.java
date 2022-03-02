@@ -88,4 +88,33 @@ public class ControlRoom {
         unitOfWork.end();
     }
 
+    public void enterRoom(String roomName, String person) {
+        unitOfWork.begin();
+        Room room = roomDao.findByName(roomName);
+        if(room != null){
+            
+            System.out.println(" -- Room with name " + roomName + " delete");
+        } else {
+            System.out.println(" -- No room with name " + roomName  +" found");
+        }
+        unitOfWork.end();
+    }
+
+    public void leaveRoom(String room, String person) {
+        unitOfWork.begin();
+
+        unitOfWork.end();
+    }
+
+    public void logRoom(String room) {
+        unitOfWork.begin();
+
+        unitOfWork.end();
+    }
+
+    public void logPerson(String person) {
+        unitOfWork.begin();
+
+        unitOfWork.end();
+    }
 }

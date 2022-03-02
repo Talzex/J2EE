@@ -2,6 +2,7 @@ package fr.iut.rm.persistence.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 
 /**
  * A classic room

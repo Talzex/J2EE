@@ -11,8 +11,8 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="exo2" target="${java.version}" />
-      <module name="validation" target="${java.version}" />
+      <module name="exo2" target="11" />
+      <module name="validation" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
