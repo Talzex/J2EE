@@ -1,2 +1,4 @@
-fr/iut/HelloServlet.class
+fr/iut/ListRoomServlet.class
 fr/iut/HomeServlet.class
+fr/iut/model/Room.class
+fr/iut/HelloServlet.class

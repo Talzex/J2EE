@@ -18,8 +18,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(name = "home", urlPatterns = {"/home"})
-public class HomeServlet extends HttpServlet {
+@WebServlet(name = "listRoom", urlPatterns = {"/listRoom"})
+public class ListRoomServlet extends HttpServlet {
+    ArrayList<Room> fakeRooms = new ArrayList<>();
+
     @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response)
@@ -31,23 +33,30 @@ public class HomeServlet extends HttpServlet {
         freemarkerConfiguration.setObjectWrapper(new DefaultObjectWrapper());
         try {
             freemarkerTemplate =
-                    freemarkerConfiguration.getTemplate("templates/home.ftl");
+                    freemarkerConfiguration.getTemplate("templates/listRoom.ftl");
         } catch (IOException e) {
             System.out.println("Unable to process request," +
                     "error during freemarker template retrieval.");  }
 
-                    Map<String, Object> root = new HashMap<String, Object>();
-            // navigation data and links
-            root.put("title", "freemarker Servlet");
-            root.put("now",
-                    SimpleDateFormat.getDateTimeInstance().format(new Date()));
-            PrintWriter out = response.getWriter();
-            assert freemarkerTemplate != null;
-            try {
-                freemarkerTemplate.process(root, out);
-                out.close();}
-            catch (TemplateException e) { e.printStackTrace(); }
-            // set mime type
-            response.setContentType("text/html");
-        }
+        Map<String, Object> root = new HashMap<String, Object>();
+        // navigation data and links
+        Room room1 = new Room("r1", 0,25);
+        Room room2 = new Room("r2", 5,30);
+        Room room3 = new Room("r3", 20,20);
+
+        fakeRooms.add(room1);
+        fakeRooms.add(room2);
+        fakeRooms.add(room3);
+
+        root.put("title", "freemarker Servlet");
+        root.put("fakeRooms", fakeRooms);
+        PrintWriter out = response.getWriter();
+        assert freemarkerTemplate != null;
+        try {
+            freemarkerTemplate.process(root, out);
+            out.close();}
+        catch (TemplateException e) { e.printStackTrace(); }
+        // set mime type
+        response.setContentType("text/html");
     }
+}
