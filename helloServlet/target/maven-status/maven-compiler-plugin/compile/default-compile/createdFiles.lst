@@ -1,4 +1,5 @@
 fr/iut/ListRoomServlet.class
 fr/iut/HomeServlet.class
 fr/iut/model/Room.class
+fr/iut/QRCodeServlet.class
 fr/iut/HelloServlet.class
