@@ -28,4 +28,6 @@ public interface RoomDao {
      */
     Room findByName(final String name);
 
+    void removeRoom(final Room room);
+
 }
