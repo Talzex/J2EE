@@ -2,6 +2,7 @@ package fr.iut.rm.web.api;
 
 import com.google.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
+import com.sun.jersey.api.NotFoundException;
 import fr.iut.rm.persistence.dao.AccessEventDao;
 import fr.iut.rm.persistence.dao.RoomDao;
 import fr.iut.rm.persistence.domain.Room;
@@ -79,9 +80,18 @@ public class RoomResource {
     public RoomDetailsVO getRoom(@PathParam(value = "roomId") long roomId) {
         logger.debug("Retrieve room with id {}", roomId);
         //TODO
+        Room room = roomDao.get(roomId);
+        if(room == null){
+            throw new NotFoundException();
+        }
+        RoomDetailsVO roomDetailsVO = new RoomDetailsVO();
+        roomDetailsVO.setId(room.getId());
+        roomDetailsVO.setName(room.getName());
+        roomDetailsVO.setDescription(room.getDescription());
 
         //Return room
-        return null;
+        return roomDetailsVO;
+
     }
 
     /**
@@ -98,13 +108,23 @@ public class RoomResource {
     public Response createRoom(SaveRoomVO roomVO) {
         logger.debug("Create a room");
         // TODO check mandatory parameters -> http status 400
-        
+        if(roomVO.getName().isEmpty() && roomVO.getDescription().isEmpty()){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
         // TODO Check if a room already exists with this name -> http status 409
+        Room room = roomDao.findByName(roomVO.getName());
+        if(room != null){
+            return Response.status(Response.Status.CONFLICT).build();
+        }
 
         // TODO Creates room in db
+        Room will_be_added = new Room();
+        will_be_added.setName(roomVO.getName());
+        will_be_added.setDescription((roomVO.getDescription()));
+        roomDao.saveOrUpdate(will_be_added);
 
         // TODO Return a response with status 200 (OK) and created room id
-
         return Response.ok().build();
     }
 
