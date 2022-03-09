@@ -5,7 +5,9 @@ import com.google.inject.servlet.RequestScoped;
 import com.sun.jersey.api.NotFoundException;
 import fr.iut.rm.persistence.dao.AccessEventDao;
 import fr.iut.rm.persistence.dao.RoomDao;
+import fr.iut.rm.persistence.domain.AccessEvent;
 import fr.iut.rm.persistence.domain.Room;
+import fr.iut.rm.web.api.model.AccessEventVO;
 import fr.iut.rm.web.api.model.RoomDetailsVO;
 import fr.iut.rm.web.api.model.RoomVO;
 import fr.iut.rm.web.api.model.SaveRoomVO;
@@ -15,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,6 +76,27 @@ public class RoomResource {
         return roomsVO;
     }
 
+    @GET
+    @Path("/{roomId}/events")
+    @Produces({MediaType.APPLICATION_JSON + "; charset=UTF-8"})
+    public Response addAccess(AccessEventVO accessEventVO, @PathParam(value = "roomId") long roomId) {
+        logger.debug("add access");
+        Room room = roomDao.get(roomId);
+
+        if(room == null){
+            throw new NotFoundException();
+        }
+
+        AccessEvent event = new AccessEvent();
+        event.setRoom(room);
+        event.setType(accessEventVO.getType());
+        event.setUserName(accessEventVO.getName());
+        event.setDateTime(LocalDateTime.now());
+        accessEventDao.saveOrUpdate(event);
+        return Response.ok().entity(event.getId()).build();
+
+    }
+
     /**
      * Retrieve a room by its name.
      *
@@ -86,13 +110,17 @@ public class RoomResource {
         logger.debug("Retrieve room with id {}", roomId);
         //TODO
         Room room = roomDao.get(roomId);
+
         if(room == null){
             throw new NotFoundException();
         }
+
+        List<AccessEvent> accessEventList = accessEventDao.findBy(roomId, null);
         RoomDetailsVO roomDetailsVO = new RoomDetailsVO();
         roomDetailsVO.setId(room.getId());
         roomDetailsVO.setName(room.getName());
         roomDetailsVO.setDescription(room.getDescription());
+        roomDetailsVO.setAccessEventsCount(accessEventList.size());
 
         //Return room
         return roomDetailsVO;
