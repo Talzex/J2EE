@@ -49,13 +49,14 @@ public class RoomResource {
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON + "; charset=UTF-8"})
-    public List<RoomVO> listRooms() {
+    public List<RoomVO> listRooms(@QueryParam("q")String q) {
         logger.debug("List all rooms");
-        // TODO add a query parameter (@QueryParam) to filter on room names using roomDao.searchByName method
-
-        //Retrieve rooms from DB
-        List<Room> rooms = roomDao.findAll();
-
+        List<Room> rooms = null;
+        if(q != null){
+            rooms = roomDao.searchByName(q);
+        } else {
+            rooms = roomDao.findAll();
+        }
         // Convert rooms into visual object (select only necessary fields)
         final List<RoomVO> roomsVO = rooms.stream().map(room -> {
             final RoomVO roomVO = new RoomVO();
