@@ -2,6 +2,7 @@ package fr.iut.rm.web.api;
 
 import com.google.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
+import com.sun.jersey.api.NotFoundException;
 import fr.iut.rm.persistence.dao.AccessEventDao;
 import fr.iut.rm.persistence.dao.RoomDao;
 import fr.iut.rm.persistence.domain.Room;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.NotActiveException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,10 +80,15 @@ public class RoomResource {
     @Produces({MediaType.APPLICATION_JSON + "; charset=UTF-8"})
     public RoomDetailsVO getRoom(@PathParam(value = "roomId") long roomId) {
         logger.debug("Retrieve room with id {}", roomId);
-        //TODO
-
-        //Return room
-        return null;
+        Room room = roomDao.get(roomId);
+        if(room == null){
+           throw new NotFoundException();
+        }
+        RoomDetailsVO roomDetailsVO = new RoomDetailsVO();
+        roomDetailsVO.setId(room.getId());
+        roomDetailsVO.setName(room.getName());
+        roomDetailsVO.setDescription(room.getDescription());
+        return roomDetailsVO;
     }
 
     /**
@@ -98,10 +105,21 @@ public class RoomResource {
     public Response createRoom(SaveRoomVO roomVO) {
         logger.debug("Create a room");
         // TODO check mandatory parameters -> http status 400
-
+        if(roomVO.getName() == null && roomVO.getDescription() == null){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
         // TODO Check if a room already exists with this name -> http status 409
+        Room room = roomDao.findByName(roomVO.getName());
 
+        if(room != null){
+            return Response.status(Response.Status.CONFLICT).build();
+        }
         // TODO Creates room in db
+        Room room1 = new Room();
+        room1.setName(roomVO.getName());
+        room1.setDescription(roomVO.getDescription());
+
+        roomDao.saveOrUpdate(room1);
 
         // TODO Return a response with status 200 (OK) and created room id
 
