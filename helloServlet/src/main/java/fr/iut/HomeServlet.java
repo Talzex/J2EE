@@ -1,9 +1,11 @@
 package fr.iut;
 
+import com.google.inject.Singleton;
 import fr.iut.model.Room;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +20,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(name = "home", urlPatterns = {"/home"})
+//@WebServlet(name = "home", urlPatterns = {"/home"})
+@Singleton
 public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request,

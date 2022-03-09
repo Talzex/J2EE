@@ -1,5 +1,7 @@
 package fr.iut;
 
+import com.google.inject.Singleton;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Singleton
 public class HelloServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request,

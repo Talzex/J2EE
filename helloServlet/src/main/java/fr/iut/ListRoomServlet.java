@@ -1,5 +1,6 @@
 package fr.iut;
 
+import com.google.inject.Singleton;
 import fr.iut.model.Room;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
@@ -18,7 +19,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(name = "listRoom", urlPatterns = {"/listRoom"})
+//@WebServlet(name = "listRoom", urlPatterns = {"/listRoom"})
+@Singleton
 public class ListRoomServlet extends HttpServlet {
     ArrayList<Room> fakeRooms = new ArrayList<>();
 

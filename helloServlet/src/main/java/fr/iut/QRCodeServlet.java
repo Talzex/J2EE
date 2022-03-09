@@ -1,5 +1,6 @@
 package fr.iut;
 
+import com.google.inject.Singleton;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -13,7 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "qrcode", urlPatterns = {"/qrcode"})
+//@WebServlet(name = "qrcode", urlPatterns = {"/qrcode"})
+@Singleton
 public class QRCodeServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest request,
