@@ -19,6 +19,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,12 +79,33 @@ public class RoomResource {
     @GET
     @Path("/{roomId}/events")
     @Produces({MediaType.APPLICATION_JSON + "; charset=UTF-8"})
-    public List<AccessEventVO> listAccessEVent(@QueryParam("type")String type){
+    public List<AccessEventVO> listAccessEvent(@PathParam(value = "roomId") long roomId, @QueryParam(value = "type") String type){
         logger.debug("List all Event");
-        List<AccessEvent> events = null;
-        if(type != null){
-
+        List<AccessEvent> events;
+        Room room = roomDao.get(roomId);
+        if(room ==  null){
+            return null;
         }
+        events = accessEventDao.findBy(room.getId(), null);
+        List<AccessEventVO> eventVO = events.stream().map(ae -> {
+            AccessEventVO accessEventVO = new AccessEventVO();
+            accessEventVO.setId(ae.getId());
+            accessEventVO.setType(ae.getType());
+            accessEventVO.setUserName(ae.getUserName());
+            return accessEventVO;
+        }).collect(Collectors.toList());
+
+        if(type != null && (type.equals("IN") || type.equals("OUT"))){
+            List<AccessEventVO> listWithType = new ArrayList<>();
+            eventVO.forEach(ae -> {
+                if(ae.getType().toString().equals(type))
+                    listWithType.add(ae);
+            });
+
+            return listWithType;
+        }
+
+        return eventVO;
     }
 
     /**
@@ -131,6 +153,26 @@ public class RoomResource {
     }
 
 
+    /**
+     * Delete an accessEvent
+     *
+     */
+    @DELETE
+    @Path("/{roomId}/events/{eventId}")
+    @Consumes({MediaType.APPLICATION_JSON + "; charset=UTF-8"})
+    public void deleteEvent(@PathParam(value = "roomId") long roomId, @PathParam(value = "eventId") long eventId) {
+        logger.debug("Delete an access event");
+
+        Room r = roomDao.get(roomId);
+        if(r == null)
+            return;
+
+        AccessEvent ae = accessEventDao.get(eventId);
+        if(ae == null)
+            return;
+
+        accessEventDao.delete(ae);
+    }
 
 
     /**
